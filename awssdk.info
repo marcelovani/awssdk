@@ -1,0 +1,6 @@
+; $Id$
+name = AWS SDK for PHP
+description = The AWS SDK for PHP provides a library, code samples, and documentation for developers.
+package = Libraries
+core = 7.x
+dependencies[] = libraries

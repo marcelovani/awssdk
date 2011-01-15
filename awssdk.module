@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ * Provides primary Drupal hook implementations.
+ *
+ * @author Jimmy Berry ("boombatower", http://drupal.org/user/214218)
+ */
+
+/**
+ * Implements libraries_info()
+ */
+function awssdk_libraries_info() {
+  $libraries['awssdk'] = array(
+    'title' => 'AWS SDK for PHP',
+    'vendor url' => 'http://aws.amazon.com/sdkforphp/',
+    'download url' => 'http://aws.amazon.com/sdkforphp/',
+    'version arguments' => array(
+      'file'    => '_docs/CHANGELOG.md',
+      'pattern' => '/# Changelog: (\d+\.\d+(\.\d+)?)/',
+    ),
+    'files' => array(
+      'php' => array(
+        'sdk.class.php',
+      ),
+    ),
+  );
+
+  return $libraries;
+}
