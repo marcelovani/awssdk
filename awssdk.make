@@ -11,5 +11,6 @@ projects[drupal] = 7
 projects[awssdk][type] = library
 projects[awssdk][download][type] = git
 projects[awssdk][download][url] = https://github.com/amazonwebservices/aws-sdk-for-php.git
+projects[awssdk][download][tag] = 1.2.1
 
 projects[libraries] = 2
