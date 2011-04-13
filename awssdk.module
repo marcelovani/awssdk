@@ -36,6 +36,33 @@ function awssdk_libraries_info() {
 }
 
 /**
+ * Implements hook_requirements()
+ */
+function awssdk_requirements() {
+  $t = get_t();
+  $requirements = array();
+
+  $info = libraries_load('awssdk');
+  if (!$info['loaded']) {
+    $requirements['awssdk'] = array(
+      'severity' => REQUIREMENT_ERROR,
+      'title' => $t('AWSSDK'),
+      'value' => $t('Failed to load the AWSSDK'),
+      'description' => $t('Please make sure the AWSSDK library is installed in the libraries directory. Use the drush make file for easy installation.'),
+    );
+  }
+  else {
+    $requirements['awssdk'] = array(
+      'severity' => REQUIREMENT_INFO,
+      'title' => $t('AWSSDK'),
+      'value' => $info['version'],
+    );
+  }
+
+  return $requirements;
+}
+
+/**
  * Load the default AWSSDK settings and apply variable overrides.
  *
  * @return
