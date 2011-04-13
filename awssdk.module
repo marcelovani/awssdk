@@ -24,6 +24,67 @@ function awssdk_libraries_info() {
           'sdk.class.php',
         ),
       ),
+      'integration files' => array(
+        'awssdk' =>  array(
+          'php' => array(
+            'config.inc',
+          ),
+        ),
+      ),
     ),
   );
+}
+
+/**
+ * Load the default AWSSDK settings and apply variable overrides.
+ *
+ * @return
+ *   An associative array containing AWSSDK setting values.
+ */
+function awssdk_config_load() {
+  if (!($config = &drupal_static(__FUNCTION__))) {
+    $config = ($cache = cache_get(__FUNCTION__)) ? $cache->data : array();
+  }
+
+  if (!$config) {
+    if ($defaults = awssdk_config_defaults()) {
+      foreach ($defaults as $key => $value) {
+        if ($override = variable_get(strtolower($key))) {
+          $value = $override;
+        }
+        $config[$key] = $value;
+      }
+    }
+    cache_set(__FUNCTION__, $config);
+  }
+
+  return $config;
+}
+
+/**
+ * Load the default AWSSDK settings.
+ *
+ * @return
+ *   An associative array containing default settings, or FALSE.
+ */
+function awssdk_config_defaults() {
+  $info = libraries_load('awssdk');
+
+  // Attempt to load the sample configuration file provided with AWSSDK.
+  if (file_exists($sample_config = $info['library path'] . '/config-sample.inc.php')) {
+    // Use a regular expression to determine the default values for the
+    // configuration constants instead of including the file so that the
+    // constants are never defined in the current process to prevent possible
+    // conflicts that might occur if caches are cleared when the AWSSDK is
+    // attempting to be used.
+    $contents = file_get_contents($sample_config);
+    if (preg_match_all("/define\('(\w+)', (.*)\);/", $contents, $matches, PREG_SET_ORDER)) {
+      $defaults = array();
+      foreach ($matches as $match) {
+        $defaults[$match[1]] = eval('return ' . $match[2] . ';');
+      }
+      return $defaults;
+    }
+  }
+  return FALSE;
 }
