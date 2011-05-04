@@ -1,0 +1,6 @@
+name = AWS SDK for PHP UI
+description = The AWS SDK for PHP configuration UI.
+package = Libraries
+core = 7.x
+configure = admin/config/media/awssdk
+dependencies[] = awssdk
