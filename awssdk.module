@@ -25,7 +25,7 @@ function awssdk_libraries_info() {
         ),
       ),
       'integration files' => array(
-        'awssdk' =>  array(
+        'awssdk' => array(
           'php' => array(
             'config.inc',
           ),
