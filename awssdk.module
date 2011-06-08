@@ -16,8 +16,9 @@ function awssdk_libraries_info() {
       'vendor url' => 'http://aws.amazon.com/sdkforphp/',
       'download url' => 'http://aws.amazon.com/sdkforphp/',
       'version arguments' => array(
-        'file' => '_docs/CHANGELOG.md',
-        'pattern' => '/# Changelog: (\d+\.\d+(\.\d+)?)/',
+        'file' => 'sdk.class.php',
+        'pattern' => "/define\('CFRUNTIME_VERSION', '(\d+\.\d+(\.\d+)?)'\);/",
+        'lines' => 200,
       ),
       'files' => array(
         'php' => array(
