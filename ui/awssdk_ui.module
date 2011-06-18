@@ -46,12 +46,6 @@ function awssdk_ui_settings_form($form, &$form_state) {
   );
   $form['aws_account_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Your CanonicalUser ID'),
-    '#default_value' => variable_get('aws_account_id', ''),
-    '#description' => t('Your CanonicalUser ID. Used for setting access control settings in AmazonS3. Found in the AWS Security Credentials.'),
-  );
-  $form['aws_account_id'] = array(
-    '#type' => 'textfield',
     '#title' => t('Amazon Account ID without dashes'),
     '#default_value' => variable_get('aws_account_id', ''),
     '#description' => t('Amazon Account ID without dashes. Used for identification with Amazon EC2. Found in the AWS Security Credentials.'),
