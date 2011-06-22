@@ -56,7 +56,7 @@ function awssdk_requirements() {
     $requirements['awssdk'] = array(
       'severity' => REQUIREMENT_INFO,
       'title' => $t('AWSSDK'),
-      'value' => $info['version'],
+      'value' => $info['version'] . ' [' . l(t('compatibility test'), $info['library path'] . '/_compatibility_test/sdk_compatibility_test.php') . ']',
     );
   }
 
