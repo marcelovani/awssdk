@@ -37,7 +37,7 @@ function awssdk_ui_settings_form($form, &$form_state) {
       You can also pass this value as the first parameter to a service constructor.'),
   );
   $form['aws_secret_key'] = array(
-    '#type' => 'password',
+    '#type' => 'textfield',
     '#title' => t('Amazon Web Services Secret Key'),
     '#default_value' => variable_get('aws_secret_key', ''),
     '#required' => TRUE,
