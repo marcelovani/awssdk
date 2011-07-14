@@ -56,6 +56,24 @@ function awssdk_ui_settings_form($form, &$form_state) {
     '#default_value' => variable_get('aws_canonical_id', ''),
     '#description' => t('Your CanonicalUser ID. Used for setting access control settings in AmazonS3. Found in the AWS Security Credentials.'),
   );
+  $form['aws_canonical_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Your CanonicalUser DisplayName'),
+    '#default_value' => variable_get('aws_canonical_name', ''),
+    '#description' => t('Your CanonicalUser DisplayName. Used for setting access control settings in AmazonS3. Found in the AWS Security Credentials (i.e. "Welcome, AWS_CANONICAL_NAME").'),
+  );
+  $form['aws_certificate_authority'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Determines which Cerificate Authority file to use'),
+    '#default_value' => variable_get('aws_certificate_authority', ''),
+    '#description' => t('A value of boolean `false` will use the Certificate Authority file available on the system. A value of boolean `true` will use the Certificate Authority provided by the SDK. Passing a file system path to a Certificate Authority file (chmodded to `0755`) will use that. Leave this set to `false` if you\'re not sure.'),
+  );
+  $form['aws_default_cache_config'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Storage type to use for caching'),
+    '#default_value' => variable_get('aws_default_cache_config', ''),
+    '#description' => t('This option allows you to configure a preferred storage type to use for caching by default. This can be changed later using the set_cache_config() method. Valid values are: `apc`, `xcache`, a DSN-style string such as `pdo.sqlite:/sqlite/cache.db`, a file system path such as `./cache` or `/tmp/cache/`, or a serialized array for memcached configuration.'),
+  );
   $form['aws_mfa_serial'] = array(
     '#type' => 'textfield',
     '#title' => t('12-digit serial number'),
