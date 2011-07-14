@@ -54,10 +54,16 @@ function awssdk_requirements() {
   }
   else {
     $requirements['awssdk'] = array(
-      'severity' => REQUIREMENT_INFO,
+      'severity' => REQUIREMENT_OK,
       'title' => $t('AWSSDK'),
-      'value' => $info['version'] . ' [' . l(t('compatibility test'), $info['library path'] . '/_compatibility_test/sdk_compatibility_test.php') . ']',
+      'value' => $info['version'] . ' [' . l(t('compatibility test'), $info['library path'] . '/_compatibility_test/sdk_compatibility_test.php', array('external' => TRUE)) . ']',
     );
+
+    $compatible = strpos(shell_exec('php ' . $info['library path'] . '/_compatibility_test/sdk_compatibility_test_cli.php'), 'Bottom Line: Yes, you can!') !== FALSE;
+    if (!$compatible) {
+      $requirements['awssdk']['severity'] = REQUIREMENT_ERROR;
+      $requirements['awssdk']['description'] = $t('Your PHP environment does not support the minimum requirements for the AWS SDK for PHP.');
+    }
   }
 
   return $requirements;
