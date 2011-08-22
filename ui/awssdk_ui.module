@@ -58,6 +58,7 @@ function awssdk_ui_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Your CanonicalUser DisplayName'),
     '#default_value' => variable_get('aws_canonical_name', ''),
+    '#return_value' => TRUE,
     '#description' => t('Your CanonicalUser DisplayName. Used for setting access control settings in AmazonS3. Found in the AWS Security Credentials (i.e. "Welcome, AWS_CANONICAL_NAME").'),
   );
   $form['aws_certificate_authority'] = array(
@@ -94,7 +95,16 @@ function awssdk_ui_settings_form($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Set the value to true to enable autoloading for classes not prefixed with "Amazon" or "CF"'),
     '#default_value' => variable_get('aws_enable_extensions', ''),
+    '#return_value' => TRUE,
     '#description' => t('Set the value to true to enable autoloading for classes not prefixed with "Amazon" or "CF". If enabled, load `sdk.class.php` last to avoid clobbering any other autoloaders.'),
   );
+  $form['#submit'][] = 'awssdk_ui_settings_form_submit';
   return system_settings_form($form);
+}
+
+/**
+ * Clear config cache to new settings take effect.
+ */
+function awssdk_ui_settings_form_submit($form, &$form_state) {
+  cache_clear_all('awssdk_config_load', 'cache');
 }
