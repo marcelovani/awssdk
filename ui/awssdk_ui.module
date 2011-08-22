@@ -33,16 +33,14 @@ function awssdk_ui_settings_form($form, &$form_state) {
     '#title' => t('Amazon Web Services Key'),
     '#default_value' => variable_get('aws_key', ''),
     '#required' => TRUE,
-    '#description' => t('Amazon Web Services Key. Found in the AWS Security Credentials.
-      You can also pass this value as the first parameter to a service constructor.'),
+    '#description' => t('Amazon Web Services Key. Found in the AWS Security Credentials. You can also pass this value as the first parameter to a service constructor.'),
   );
   $form['aws_secret_key'] = array(
     '#type' => 'textfield',
     '#title' => t('Amazon Web Services Secret Key'),
     '#default_value' => variable_get('aws_secret_key', ''),
     '#required' => TRUE,
-    '#description' => t('Amazon Web Services Secret Key. Found in the AWS Security Credentials.
-      You can also pass this value as the second parameter to a service constructor.'),
+    '#description' => t('Amazon Web Services Secret Key. Found in the AWS Security Credentials. You can also pass this value as the second parameter to a service constructor.'),
   );
   $form['aws_account_id'] = array(
     '#type' => 'textfield',
