@@ -84,7 +84,7 @@ function awssdk_config_load() {
   if (!$config) {
     if ($defaults = awssdk_config_defaults()) {
       foreach ($defaults as $key => $value) {
-        if ($override = variable_get(strtolower($key))) {
+        if ($override = variable_get($key)) {
           $value = $override;
         }
         $config[$key] = $value;
@@ -116,7 +116,7 @@ function awssdk_config_defaults() {
     if (preg_match_all("/define\('(\w+)', (.*)\);/", $contents, $matches, PREG_SET_ORDER)) {
       $defaults = array();
       foreach ($matches as $match) {
-        $defaults[$match[1]] = eval('return ' . $match[2] . ';');
+        $defaults[strtolower($match[1])] = eval('return ' . $match[2] . ';');
       }
       return $defaults;
     }
