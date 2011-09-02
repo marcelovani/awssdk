@@ -3,3 +3,4 @@ description = The AWS SDK for PHP provides a library, code samples, and document
 package = Libraries
 core = 7.x
 dependencies[] = libraries
+files[] = awssdk.test
