@@ -4,3 +4,4 @@ package = Libraries
 core = 7.x
 configure = admin/config/media/awssdk
 dependencies[] = awssdk
+files[] = awssdk_ui.test
