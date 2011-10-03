@@ -7,4 +7,4 @@ projects[awssdk][download][type] = git
 projects[awssdk][download][url] = https://github.com/amazonwebservices/aws-sdk-for-php.git
 projects[awssdk][download][tag] = 1.4.2
 
-projects[libraries] = 2
+projects[libraries] = 2.0-alpha1
