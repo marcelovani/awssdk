@@ -54,11 +54,10 @@ function awssdk_requirements() {
   }
   else {
     global $base_url;
-    $url = array($base_url . '/' . $info['library path'] . '/_compatibility_test/sdk_compatibility_test.php', array('external' => TRUE));
     $requirements['awssdk'] = array(
       'severity' => REQUIREMENT_OK,
       'title' => $t('AWSSDK'),
-      'value' => $info['version'] . ' [' . l(t('compatibility test'), $url[0], $url[1]) . ']',
+      'value' => $info['version'] . ' [' . l(t('compatibility test'), 'admin/reports/awssdk') . ']',
     );
 
     // Instead of calling the CLI script in a separate process to check for
@@ -129,4 +128,24 @@ function awssdk_config_defaults() {
     }
   }
   return FALSE;
+}
+
+/**
+ * Implements hook_menu()
+ */
+function awssdk_menu() {
+  $items['admin/reports/awssdk'] = array(
+    'page callback' => 'awssdk_report',
+    'page arguments' => array(libraries_get_path('awssdk') . '/_compatibility_test/sdk_compatibility_test.php'),
+    'access arguments' => array('access site reports'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Provide a function to wrap the require construct to be used as menu callback.
+ */
+function awssdk_report($file) {
+  require $file;
 }
