@@ -61,10 +61,13 @@ function awssdk_requirements() {
       'value' => $info['version'] . ' [' . l(t('compatibility test'), $url[0], $url[1]) . ']',
     );
 
-    // Instead of calling the CLI script to check for compatibility make an
-    // http request to ensure that the web configuration for PHP is used.
-    $request = drupal_http_request(url($url[0], $url[1]));
-    $compatible = $request->code == 200 && strpos($request->data, 'Bottom Line: Yes, you can!') !== FALSE;
+    // Instead of calling the CLI script in a separate process to check for
+    // compatibility load the capatiblity test in the same process to ensure it
+    // uses the same configuration as Drupal.
+    ob_start();
+    include $info['library path'] . '/_compatibility_test/sdk_compatibility_test_cli.php';
+    $compatible = strpos(ob_get_clean(), 'Bottom Line: Yes, you can!') !== FALSE;
+
     if (!$compatible) {
       $requirements['awssdk']['severity'] = REQUIREMENT_ERROR;
       $requirements['awssdk']['description'] = $t('Your PHP environment does not support the minimum requirements for the AWS SDK for PHP.');
