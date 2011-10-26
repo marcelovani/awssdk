@@ -109,10 +109,8 @@ function awssdk_config_load() {
  *   An associative array containing default settings, or FALSE.
  */
 function awssdk_config_defaults() {
-  $info = libraries_load('awssdk');
-
   // Attempt to load the sample configuration file provided with AWSSDK.
-  if (file_exists($sample_config = $info['library path'] . '/config-sample.inc.php')) {
+  if (file_exists($sample_config = libraries_get_path('awssdk') . '/config-sample.inc.php')) {
     // Use a regular expression to determine the default values for the
     // configuration constants instead of including the file so that the
     // constants are never defined in the current process to prevent possible
