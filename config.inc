@@ -8,5 +8,5 @@
 
 // Load the configuration and define all configuration constants.
 foreach (awssdk_config_load() as $key => $value) {
-  define($key, $value);
+  define(strtoupper($key), $value);
 }
