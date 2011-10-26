@@ -45,5 +45,10 @@ class AWSSDKUnitTest extends DrupalUnitTestCase {
     $config = awssdk_config_load();
     $this->assertEqual(count($config), count($defaults), 'Configuration count matches default count.');
     $this->assertEqual($config['aws_key'], $conf['aws_key'], 'Configured setting overwrote default setting.');
+
+    // Ensure config.inc is loaded during libraries_load() and defines constant.
+    if ($this->assertTrue(defined('AWS_KEY'), 'Configuration constant AWS_KEY defined by config.inc.')) {
+      $this->assertEqual($conf['aws_key'], AWS_KEY, 'Configuration constant AWS_KEY matches test value.');
+    }
   }
 }
