@@ -25,12 +25,10 @@ function awssdk_libraries_info() {
           'sdk.class.php',
         ),
       ),
-      'integration files' => array(
-        'awssdk' => array(
-          'php' => array(
-            'config.inc',
-          ),
-        ),
+      'callbacks' => array(
+        'post-load' => array(
+          'awssdk_config_set',
+        )
       ),
     ),
   );
@@ -126,6 +124,23 @@ function awssdk_config_defaults() {
     }
   }
   return FALSE;
+}
+
+/**
+ * Set configuration via CFCredentials::set() during library load.
+ */
+function awssdk_config_set() {
+  $config = array();
+  foreach (awssdk_config_load() as $key => $value) {
+    // Remove the awssdk_ prefix.
+    $config[substr($key, 7)] = $value;
+  }
+
+  // Any environment support should be done through variable overrides,
+  // otherwise alter the library definition for callbacks -> post-load.
+  CFCredentials::set(array(
+    '@default' => $config,
+  ));
 }
 
 /**
