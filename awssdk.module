@@ -86,14 +86,36 @@ function awssdk_config_load() {
   }
 
   if (!$config) {
-    if ($defaults = awssdk_config_defaults()) {
-      foreach ($defaults as $key => $value) {
-        if ($override = variable_get($key)) {
-          $value = $override;
-        }
+    $keys = array(
+      // Required keys.
+      'key',
+      'secret',
+      'account_id',
+      'canonical_id',
+
+      // Optional keys.
+      'canonical_name',
+      'certificate_authority',
+      'default_cache_config',
+      'mfa_serial',
+      'cloudfront_keypair_id',
+      'cloudfront_private_key_pem',
+      'enable_extensions',
+    );
+
+    // Look for variables for each key and pull in the values.
+    foreach ($keys as $key) {
+      if (($value = variable_get('aws_' . $key)) !== NULL) {
         $config[$key] = $value;
       }
     }
+
+    // Merge required defaults.
+    $config += array(
+      'default_cache_config' => '',
+      'certificate_authority' => FALSE,
+    );
+
     cache_set(__FUNCTION__, $config);
   }
 
@@ -101,45 +123,13 @@ function awssdk_config_load() {
 }
 
 /**
- * Load the default AWSSDK settings.
- *
- * @return
- *   An associative array containing default settings, or FALSE.
- */
-function awssdk_config_defaults() {
-  // Attempt to load the sample configuration file provided with AWSSDK.
-  if (file_exists($sample_config = libraries_get_path('awssdk') . '/config-sample.inc.php')) {
-    // Use a regular expression to determine the default values for the
-    // configuration constants instead of including the file so that the
-    // constants are never defined in the current process to prevent possible
-    // conflicts that might occur if caches are cleared when the AWSSDK is
-    // attempting to be used.
-    $contents = file_get_contents($sample_config);
-    if (preg_match_all("/define\('(\w+)', (.*)\);/", $contents, $matches, PREG_SET_ORDER)) {
-      $defaults = array();
-      foreach ($matches as $match) {
-        $defaults[strtolower($match[1])] = eval('return ' . $match[2] . ';');
-      }
-      return $defaults;
-    }
-  }
-  return FALSE;
-}
-
-/**
  * Set configuration via CFCredentials::set() during library load.
  */
 function awssdk_config_set() {
-  $config = array();
-  foreach (awssdk_config_load() as $key => $value) {
-    // Remove the awssdk_ prefix.
-    $config[substr($key, 7)] = $value;
-  }
-
   // Any environment support should be done through variable overrides,
   // otherwise alter the library definition for callbacks -> post-load.
   CFCredentials::set(array(
-    '@default' => $config,
+    '@default' => awssdk_config_load(),
   ));
 }
 
