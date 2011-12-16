@@ -14,7 +14,7 @@ function awssdk_ui_menu() {
   $items = array();
 
   $items['admin/config/media/awssdk'] = array(
-    'title' => 'AWS SDK for PHP',
+    'title' => 'AWS SDK',
     'description' => 'Configure the Amazon Web Services SDK settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('awssdk_ui_settings_form'),
