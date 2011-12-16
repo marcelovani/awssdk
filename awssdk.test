@@ -22,8 +22,10 @@ class AWSSDKUnitTest extends DrupalUnitTestCase {
     // Set AWS SDK setting for checking later.
     global $conf;
     $conf['aws_key'] = '1337';
+    $conf['aws_secret'] = 'secret';
 
-    // Ensure the requirements check out properly.
+    // Ensure the requirements check out properly and configuration settings
+    // were success loaded since awssdk_requirements() checks for them.
     require_once 'includes/install.inc';
     $requirements = awssdk_requirements();
     if (!$this->assertEqual($requirements['awssdk']['severity'], REQUIREMENT_OK, 'AWS SDK library loaded and compatible.')) {
@@ -37,18 +39,12 @@ class AWSSDKUnitTest extends DrupalUnitTestCase {
     // Ensure that the integration file was loaded.
     $this->assertTrue(defined('CFRUNTIME_NAME') && CFRUNTIME_NAME == 'aws-sdk-php', 'Library integration file sdk.class.php loaded.');
 
-    // Ensure that default configuration was properly parsed and loaded.
-    $defaults = array_keys(awssdk_config_defaults());
-    $this->assertTrue($defaults, count($defaults) . ' default settings loaded.');
-
     // Ensure that the configuration was merged with the defaults and loaded.
     $config = awssdk_config_load();
-    $this->assertEqual(count($config), count($defaults), 'Configuration count matches default count.');
-    $this->assertEqual($config['aws_key'], $conf['aws_key'], 'Configured setting overwrote default setting.');
+    $this->assertEqual($config['key'], $conf['aws_key'], 'Configured setting for key overwrote default setting.');
+    $this->assertEqual($config['secret'], $conf['aws_secret'], 'Configured setting for secret overwrote default setting.');
 
-    // Ensure config.inc is loaded during libraries_load() and defines constant.
-    if ($this->assertTrue(defined('AWS_KEY'), 'Configuration constant AWS_KEY defined by config.inc.')) {
-      $this->assertEqual($conf['aws_key'], AWS_KEY, 'Configuration constant AWS_KEY matches test value.');
-    }
+    $this->assertEqual($config['default_cache_config'], '', 'Configured default for default_cache_config provided.');
+    $this->assertEqual($config['certificate_authority'], FALSE, 'Configured default for certificate_authority provided.');
   }
 }
