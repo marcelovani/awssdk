@@ -106,7 +106,6 @@ function awssdk_config_load() {
       'mfa_serial',
       'cloudfront_keypair_id',
       'cloudfront_private_key_pem',
-      'enable_extensions',
     );
 
     // Look for variables for each key and pull in the values.
