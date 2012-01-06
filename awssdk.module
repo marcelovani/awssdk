@@ -7,6 +7,11 @@
  */
 
 /**
+ * Denotes "AWS SDK for PHP" minimum version number.
+ */
+define('AWSSDK_MINIMUM_VERSION', '1.5');
+
+/**
  * Implements hook_libraries_info()
  */
 function awssdk_libraries_info() {
@@ -48,6 +53,14 @@ function awssdk_requirements() {
       'title' => $t('AWSSDK'),
       'value' => $t('Failed to load the AWSSDK'),
       'description' => $t('Please make sure the AWSSDK library is installed in the libraries directory. Use the drush make file for easy installation.'),
+    );
+  }
+  else if(!$info['version'] || version_compare($info['version'], AWSSDK_MINIMUM_VERSION) < 0) {
+    $requirements['awssdk'] = array(
+      'severity' => REQUIREMENT_ERROR,
+      'title' => $t('AWSSDK'),
+      'value' => $info['version'] . ' [' . l(t('compatibility test'), 'admin/reports/awssdk') . ']',
+      'description' => $t('Please make sure the AWSSDK library installed is ' . AWSSDK_MINIMUM_VERSION . ' or greater.'),
     );
   }
   else {
