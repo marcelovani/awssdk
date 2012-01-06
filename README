@@ -1,3 +1,5 @@
+Use the compatibility table to determine the approprate version of the module
+and SDK found at http://drupal.org/node/1396596.
 
 Place the approprate version of the AWS SDK for PHP in the libraries directory
 within the site you are working. That may be 'default' or 'all' like the
