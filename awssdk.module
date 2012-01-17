@@ -42,9 +42,14 @@ function awssdk_libraries_info() {
 /**
  * Implements hook_requirements()
  */
-function awssdk_requirements() {
+function awssdk_requirements($phase) {
   $t = get_t();
   $requirements = array();
+
+  // None of these requirements are relevant outside of runtime.
+  if ($phase != 'runtime') {
+    return $requirements;
+  }
 
   $info = libraries_load('awssdk');
   if (!$info['loaded']) {
