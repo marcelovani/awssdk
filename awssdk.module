@@ -96,6 +96,11 @@ function awssdk_requirements() {
       if (!CFCredentials::get()->key || !CFCredentials::get()->secret) {
         $requirements['awssdk']['severity'] = REQUIREMENT_ERROR;
         $requirements['awssdk']['description'] = $t('The required AWSSDK credentials key and secret have not been set.');
+
+        // Add link to configuration form if ui is enabled.
+        if (module_exists('awssdk_ui')) {
+          $requirements['awssdk']['description'] .= ' [' . l(t('configuration'), 'admin/config/media/awssdk') . ']';
+        }
       }
     }
   }
