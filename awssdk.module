@@ -73,14 +73,21 @@ function awssdk_requirements() {
 
     // Instead of calling the CLI script in a separate process to check for
     // compatibility load the capatiblity test in the same process to ensure it
-    // uses the same configuration as Drupal.
-    ob_start();
-    include $info['library path'] . '/_compatibility_test/sdk_compatibility_test_cli.php';
-    $compatible = strpos(ob_get_clean(), 'Bottom Line: Yes, you can!') !== FALSE;
+    // uses the same configuration as Drupal. Ensure that ob_start() is
+    // available, otherwise skip the requirements check and list requirement as
+    // info since we cannot reliably mark it as ok.
+    if (function_exists('ob_start')) {
+      ob_start();
+      include $info['library path'] . '/_compatibility_test/sdk_compatibility_test_cli.php';
+      $compatible = strpos(ob_get_clean(), 'Bottom Line: Yes, you can!') !== FALSE;
 
-    if (!$compatible) {
-      $requirements['awssdk']['severity'] = REQUIREMENT_ERROR;
-      $requirements['awssdk']['description'] = $t('Your PHP environment does not support the minimum requirements for the AWS SDK for PHP.');
+      if (!$compatible) {
+        $requirements['awssdk']['severity'] = REQUIREMENT_ERROR;
+        $requirements['awssdk']['description'] = $t('Your PHP environment does not support the minimum requirements for the AWS SDK for PHP.');
+      }
+    }
+    else {
+      $requirements['awssdk']['severity'] = REQUIREMENT_INFO;
     }
 
     // Ensure that the two required credentials have been set.
