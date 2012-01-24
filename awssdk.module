@@ -137,8 +137,8 @@ function awssdk_config_load() {
       'certificate_authority',
       'default_cache_config',
       'mfa_serial',
-      'cloudfront_keypair_id',
-      'cloudfront_private_key_pem',
+      'cloudfront_keypair',
+      'cloudfront_pem',
     );
 
     // Look for variables for each key and pull in the values.
