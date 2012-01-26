@@ -32,13 +32,14 @@ function awssdk_update_7500() {
  */
 function awssdk_update_7501() {
   $map = array(
-    'secret_key' => 'secret',
-    'cloudfront_keypair_id' => 'cloudfront_keypair',
-    'cloudfront_private_key_pem' => 'cloudfront_pem',
+    'aws_secret_key' => 'aws_secret',
+    'aws_cloudfront_keypair_id' => 'aws_cloudfront_keypair',
+    'aws_cloudfront_private_key_pem' => 'aws_cloudfront_pem',
   );
   foreach ($map as $old => $new) {
     if ($value = variable_get($old)) {
       variable_set($new, $value);
     }
+    variable_del($old);
   }
 }
