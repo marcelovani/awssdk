@@ -26,3 +26,19 @@ function awssdk_uninstall() {
 function awssdk_update_7500() {
   variable_del('aws_enable_extensions');
 }
+
+/**
+ * Update configuration variables from 1.4.x to 1.5.x.
+ */
+function awssdk_update_7501() {
+  $map = array(
+    'secret_key' => 'secret',
+    'cloudfront_keypair_id' => 'cloudfront_keypair',
+    'cloudfront_private_key_pem' => 'cloudfront_pem',
+  );
+  foreach ($map as $old => $new) {
+    if ($value = variable_get($old)) {
+      variable_set($new, $value);
+    }
+  }
+}
