@@ -92,16 +92,16 @@ function awssdk_ui_settings_form($form, &$form_state) {
     '#default_value' => variable_get('aws_mfa_serial', ''),
     '#description' => t('12-digit serial number taken from the Gemalto device used for Multi-Factor Authentication. Ignore this if you\'re not using MFA.'),
   );
-  $form['extra']['cloudfront_keypair'] = array(
+  $form['extra']['aws_cloudfront_keypair'] = array(
     '#type' => 'textfield',
     '#title' => t('Amazon CloudFront key-pair to use for signing private URLs'),
-    '#default_value' => variable_get('cloudfront_keypair', ''),
+    '#default_value' => variable_get('aws_cloudfront_keypair', ''),
     '#description' => t('Amazon CloudFront key-pair to use for signing private URLs. Found in the AWS Security Credentials. This can be set programmatically with <AmazonCloudFront::set_keypair_id()>.'),
   );
-  $form['extra']['cloudfront_pem'] = array(
-    '#type' => 'textfield',
+  $form['extra']['aws_cloudfront_pem'] = array(
+    '#type' => 'textarea',
     '#title' => t('The contents of the *.pem private key that matches with the CloudFront key-pair ID'),
-    '#default_value' => variable_get('cloudfront_pem', ''),
+    '#default_value' => variable_get('aws_cloudfront_pem', ''),
     '#description' => t('The contents of the *.pem private key that matches with the CloudFront key-pair ID. Found in the AWS Security Credentials. This can be set programmatically with <AmazonCloudFront::set_private_key()>.'),
   );
   $form['#submit'][] = 'awssdk_ui_settings_form_submit';
