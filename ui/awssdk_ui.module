@@ -18,10 +18,22 @@ function awssdk_ui_menu() {
     'description' => 'Configure the Amazon Web Services SDK settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('awssdk_ui_settings_form'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('access awssdk ui'),
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function awssdk_ui_permission() {
+  return array(
+    'access awssdk ui' =>  array(
+      'title' => t('Access AWS SDK User Interface'),
+      'description' => t('Perform administration tasks for AWS SDK module.'),
+    ),
+  );
 }
 
 /**
