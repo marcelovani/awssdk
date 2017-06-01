@@ -2,9 +2,7 @@
 api = 2
 core = 7.x
 
-projects[awssdk][type] = library
-projects[awssdk][download][type] = git
-projects[awssdk][download][url] = https://github.com/amazonwebservices/aws-sdk-for-php.git
-projects[awssdk][download][tag] = 1.5.10
-
-projects[libraries] = 2
+libraries[awssdk][type] = library
+libraries[awssdk][download][type] = git
+libraries[awssdk][download][url] = https://github.com/amazonwebservices/aws-sdk-for-php.git
+libraries[awssdk][download][tag] = 1.5.10
